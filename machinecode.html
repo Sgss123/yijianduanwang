@@ -1,3 +1,48 @@
+BATreg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v 29 /d "%systemroot%\system32\imageres.dll,197" /t reg_sz /f
+taskkill /f /im explorer.exe
+attrib -s -r -h "%userprofile%\AppData\Local\iconcache.db"
+del "%userprofile%\AppData\Local\iconcache.db" /f /q
+start explorer
+pauseATA
+BAT2@shift /0
+@echo off 
+title 硬件查询
+color 0A
+REM mode con COLS=80 LINES=26
+Rd "%WinDir%\system32\test_permissions" >NUL 2>NUL
+Md "%WinDir%\System32\test_permissions" 2>NUL||(echo.&Echo.====请使用右键管理员身份运行！====&&Pause>nul&&Exit)
+Rd "%WinDir%\System32\test_permissions" 2>NUL
+setlocal EnableExtensions
+setlocal EnableDelayedExpansion
+set "Back=请按任意键返回...&&pause>nul"
+set "Back1=请按任意键返回重新输入...&&pause>nul"
+set "Website=^|________________________QAQ ________________________^|"
+reg add "HKCU\Software\Microsoft\InputMethod\Settings\CHS" /v "Default Mode" /t REG_DWORD /d 1 /f
+if /i %PROCESSOR_ARCHITECTURE% equ AMD64 ( set "Bit=64" ) else ( set "Bit=86" )
+for /f "tokens=4 delims= " %%i in ('reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion" /v "ProductName"') do (set "Version=%%i")
+ver|findstr "版本" >nul&&set "HostLanguage=zh-CN"||set "HostLanguage=en-US"
+
+:Begin
+title 不怎么专业的解码
+mode con COLS=104 LINES=50
+cls
+echo.
+echo.__________________________不太专业的专业解码__________________________
+echo.
+echo. 硬盘序列号正在独家加密:
+wmic diskdrive get serialnumber
+echo. CPU序列号正在独家加密:
+wmic cpu get serialnumber
+echo. BIOS序列号正在独家加密:
+wmic bios get serialnumber
+echo. 主板序列号正在独家加密:
+wmic baseboard get serialnumber
+echo. 网卡序列号正在独家加密:
+@echo off&color 0A&&setlocal EnableDelayedExpansion
+for /f "tokens=*" %%i in ('ipconfig /all^|findstr /i "描述 物理地址"') do set "qq=%%i"&&set "qq=!qq:. =!"&&echo.!qq!
+echo.检测完成 . . . %Back%
+pause>nul
+goto exitATA2
 KEYcfzsvip9001YEK
 LINK%temp%\KNIL
 ----
